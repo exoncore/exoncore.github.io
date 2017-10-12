@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+	<html><head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+	<title>Динамическая Таблица 001 (JS)</title>
+
+<style>
+body {}
+
+table {
+	margin: auto;
+	width: 500px;
+	border-collapse: collapse;
+	font: normal 400 16px/1 'Helvetica';
+	text-align: center;}
+
+table td, table th {
+	width: 150px;
+	border: 1px solid;}
+
+table td input {
+	width: 100%;
+	height: 100%;
+	border: none;
+	text-align: center;
+	font-size: 16px;}
+
+tr:nth-child(2n) {background: #a8d7ff;}
+tr:hover {background: #fffcb6;}
+tr:hover input {background: #fffcb6;}
+input:hover {background: #ffd3b6 !important;}
+input:active {background: #c27949 !important;}
+tr.in-edit input, tr.in-edit td {background: #d9d6b5;}
+
+.buttons {padding: 4px;}
+
+.tblBtn {
+	width: 1.2em;
+	display: inline-block;
+	font: normal 400 18px/1 'Helvetica';
+	text-align: center;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;}
+
+.edit {;}.edit:hover {color: #06C;}
+.add {;}.add:before {content: '⇲';} .add:hover {color: #3C6;}
+.del {} .del:before {content: '⇱';} .del:hover {color: #C33;}
+</style>
+
+
+</head>
+<body>
+
+
+<table>
+<thead>
+	<tr>
+		<th scope="col">Поле 1</th>
+		<th scope="col">Поле 2</th>
+		<th scope="col">Поле 3</th>
+		<th scope="col">Поле 4</th>
+		<th class="buttons" scope="col">Поле 5</th>
+	</tr>
+</thead>
+<tbody id="dynamic">
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td class="buttons">
+			<i class="tblBtn edit">✎</i><i class="tblBtn del"></i><i class="tblBtn add"></i>
+		</td>
+	</tr>
+</tbody>
+</table>
+
+
+<script><!--  -->
+var DynamicTable = (function(GLOB) {
+  var RID = 0;
+  return function(tBody) {
+	/* Если ф-цию вызвали не как конструктор фиксим этот момент: */
+	if (!(this instanceof arguments.callee)) {
+	  return new arguments.callee.apply(arguments);
+	}
+	//Делегируем прослушку событий элементу tbody
+	tBody.onclick = function(e) {
+	  var evt = e || GLOB.event,
+		trg = evt.target || evt.srcElement;
+	  if (trg.className && trg.className.indexOf("add") !== -1) {
+		_addRow(trg.parentNode.parentNode, tBody);
+	  } else if (trg.className && trg.className.indexOf("del") !== -1) {
+		tBody.rows.length > 1 && _delRow(trg.parentNode.parentNode, tBody);
+	  }
+
+	  if (trg.className && trg.className.indexOf("edit") !== -1) {
+
+		trg.closest('tr').classList.toggle('in-edit');
+
+		var isEdit = trg.innerText == '✎' ? true : false;
+		trg.innerText = isEdit ? '✔' : '✎';
+
+		var tds = trg.closest('tr').children;
+
+		for (var i = 0; i < tds.length; i++) {
+		  if (tds[i].className.indexOf("buttons") == -1) {
+			if (isEdit) {
+			  var curVal = tds[i].innerText;
+			  tds[i].innerText = '';
+			  var inp = document.createElement('input');
+			  inp.value = curVal;
+			  tds[i].appendChild(inp);
+			} else {
+			  var newVal = tds[i].childNodes[0].value;
+			  tds[i].removeChild(tds[i].childNodes[0]);
+			  tds[i].innerText = newVal;
+			}
+		  }
+		}
+	  }
+	};
+	var _rowTpl = tBody.rows[0].cloneNode(true);
+	// Корректируем имена элементов формы
+	var _correctNames = function(row) {
+	  var elements = row.getElementsByTagName("*");
+	  for (var i = 0; i < elements.length; i += 1) {
+		if (elements.item(i).name) {
+		  if (elements.item(i).type &&
+			elements.item(i).type === "radio" &&
+			elements.item(i).className &&
+			elements.item(i).className.indexOf("glob") !== -1) {
+			elements.item(i).value = RID;
+		  } else {
+			elements.item(i).name = RID + "[" + elements.item(i).name + "]";
+		  }
+		}
+	  }
+	  RID++;
+	  return row;
+	};
+	var _addRow = function(before, tBody) {
+	  var newNode = _correctNames(_rowTpl.cloneNode(true));
+	  tBody.insertBefore(newNode, before.nextSibling);
+	};
+	var _delRow = function(row, tBody) {
+	  tBody.removeChild(row);
+	};
+	_correctNames(tBody.rows[0]);
+  };
+})(this);
+
+document.addEventListener('DOMContentLoaded', function() {
+  new DynamicTable(document.getElementById("dynamic"));
+});
+</script>
+
+
+</body>
+</html>
