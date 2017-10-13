@@ -34,20 +34,21 @@ tr.in-edit input, tr.in-edit td {background: #d9d6b5;}
 
 .buttons {padding: 4px;}
 
-.tblBtn {
-	width: 1.2em;
+.tBt1 {
+	width: 1.3em;
 	display: inline-block;
 	font: normal 400 18px/1 'Helvetica';
 	text-align: center;
 	cursor: pointer;
+	color:;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;}
 
-.edit {;}.edit:hover {color: #06C;}
-.add {;}.add:before {content: '⇲';} .add:hover {color: #3C6;}
-.del {} .del:before {content: '⇱';} .del:hover {color: #C33;}
+.edit	{-webkit-transform: scale(1,0.9); -ms-transform: scale(1,0.9); transform: scale(0.92,0.92);} .edit:hover {color: #06C;}
+.del	{-webkit-transform: scale(1,0.85); -ms-transform: scale(1,0.85); transform: scale(1,0.85);} .del:before {content: '\00A0✂';}	.del:hover {color: #C33;}
+.add	{;} .add:before {content: '\00A0✚';}	.add:hover {color: #3C6;}
 </style>
 
 
@@ -72,7 +73,7 @@ tr.in-edit input, tr.in-edit td {background: #d9d6b5;}
 		<td></td>
 		<td></td>
 		<td class="buttons">
-			<i class="tblBtn edit">✎</i><i class="tblBtn del"></i><i class="tblBtn add"></i>
+			<i class="tBt1 edit">✎</i><i class="tBt1 del"></i><i class="tBt1 add"></i>
 		</td>
 	</tr>
 </tbody>
