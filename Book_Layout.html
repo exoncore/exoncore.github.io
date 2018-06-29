@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+	<html lang="ru"><head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Шаблон Книги</title>
+
+<style>
+body {
+	counter-reset: example figure issue;
+	max-width: 50em;
+	margin: 0 auto;
+	padding: 1.6em 1.5em 2em 50px;
+	padding: 1.6em 1.5em 2em calc(26px + 1.5em);
+	line-height: 1.5;
+	font-family: sans-serif;
+	widows: 2;
+	orphans: 2;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	hyphens: auto;
+	color: black;
+	background: white top left fixed no-repeat;
+	background-size: 25px auto;}
+
+div.note-title {
+	padding-right:	1em;
+	min-width: 7.5em;
+	color: #b9ab2d;}
+div.note-title {color: #2b2; }
+div.note-title span {text-transform: uppercase;}
+
+div.note {
+	margin-top: 1em;
+	margin-bottom: 1em;}
+.note {
+	padding: .5em;
+	border-left-width: .5em;
+	border-left-style: solid;}
+
+div.note {
+	padding: 1em 1.2em 0.5em;
+	margin: 1em 0;
+	position: relative;
+	clear: both;}
+
+.note {
+	border-color: #52e052;
+	background: #e9fbe9;}
+
+h1 abbr,
+h2 abbr,
+a abbr {border: none;}
+
+a.internalDFN {
+	color: inherit;
+	border-bottom: 1px solid #99c;
+	text-decoration: none;}
+
+code {color: #c83500;}
+.toc a {text-decoration: none;}
+a .secno {color: #000;}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	padding: 0.5em;
+	color: #333;
+	background: transparent !important;}
+
+.hljs-tag .hljs-attr {color: #008080;}
+.hljs-string {color: #d14;}
+
+.hljs-tag,
+.hljs-name {
+	color: #000080;
+	font-weight: normal;}
+
+.note-title {padding-left: 1.5em}
+
+summary {
+	background: url("rightArrow.png") no-repeat scroll 0.5em center #fff;
+	padding: 0.25em 0.25em 0.25em 2em;}
+
+summary:hover,
+summary:focus {background-color: #eee;}
+
+details,
+summary {display: block;}
+
+div.note {padding: 0.5em 2em;}
+
+.note {
+	background: none repeat scroll 0 0 #e9fbe9;
+	border-color: #52e052;
+	border-left: 0.25em solid #52e052;}
+
+.example {
+	background: none repeat scroll 0 0 #fcfcfc;
+	border-color: #c0c0c0;
+	border-left: 0.25em solid #c0c0c0;
+	color: #222222;
+	display: block;
+	margin-left: 1em;
+	padding-bottom: 0.5em;
+	padding-left: 1em;}
+
+.new-feature {background-color: crimson;}
+
+.changed-feature {background-color: slateblue;}
+
+.new-feature,
+.changed-feature {
+	border-bottom: none !important;
+	padding-top: 1px;
+	padding-left: 4px;
+	padding-right: 4px;
+	margin-right: 6px;
+	font-size: smaller;
+	font-weight: bold;
+	color: white !important;
+	border-radius: 4px;
+	box-shadow: 3px 3px 3px #888;
+	border-bottom: none;
+	margin-left: 4px;
+	vertical-align: top;}
+
+tr:nth-child(2n+1) {background-color: #ebebeb;}
+td {padding: 0 .3em;}
+a code {color: #034575}
+div.head {margin-bottom: 1em;}
+div.head hr {border-style: solid;}
+
+div.head h1 {
+	padding: 1em 0 .5em 0;
+	font-weight: bold;
+	font-size: 400%;}
+
+div.head h2 {
+	margin: -1.5em 0 3.5em 0;
+	font-weight: bold;
+	font-size: 220%;
+	text-align: center;}
+
+div.head table {padding: 4em 0;}
+div.head table tr {margin: 0 0 .5em 2em;}
+div.head table td + td {margin-top: -.5em;}
+div.head table td:nth-child(odd) {font-weight: bold;}
+div.head table tr:nth-child(odd) {background-color: inherit;}
+
+@media screen {
+	body.toc-sidebar #toc-jump:not(:focus) {
+		width: 0;
+		height: 0;
+		padding: 0;
+		position: absolute;
+		overflow: hidden;}}
+
+@media screen and (min-width: 78em) {
+	body:not(.toc-inline) #toc-jump:not(:focus) {
+		width: 0;
+		height: 0;
+		padding: 0;
+		position: absolute;
+		overflow: hidden;}}
+
+h1, h2, {background: transparent;}
+
+h1, h2, dt {
+	page-break-after: avoid;
+	page-break-inside: avoid;
+	font: 100% sans-serif;
+	font-family: inherit;
+	line-height: 1.2;
+	hyphens: manual;}
+
+
+h1 {
+	font-size: 170%;
+	text-align: center;}
+
+h2 {
+	margin-top: 3rem;
+	font-size: 140%;
+	color: #005A9C;}
+
+h1 + h2 {margin-top: 0;}
+
+p {margin: 1em 0;}
+p.copyright {font-size: small;}v
+
+ol {
+	margin-left: 0;
+	padding-left: 2em;}
+
+li {
+	margin: 0.25em 0 0.5em;
+	padding: 0;}
+
+sup {
+	vertical-align: super;
+	font-size: 80%;}
+
+pre, code {
+	font-family: Menlo, Consolas, "DejaVu Sans Mono", Monaco, monospace;
+	font-size: .9em;
+	page-break-inside: avoid;
+	hyphens: none;
+	text-transform: none;}
+
+pre {
+	margin-top: 1em;
+	margin-bottom: 1em;
+	overflow: auto;}
+
+a[href] {
+	color: #034575;
+	text-decoration: none;
+	border-bottom: 1px solid #707070;
+	padding: 0 1px 0;
+	margin: 0 -1px 0;}
+
+a:visited {border-bottom-color: #BBB;}
+
+a[href]:focus, a[href]:hover {
+	background: #f8f8f8;
+	background: rgba(75%, 75%, 75%, .25);
+	border-bottom-width: 3px;
+	margin-bottom: -2px;}
+
+a[href]:active {
+	color: #C00;
+	border-color: #C00;}
+
+caption {
+	font-style: italic;
+	font-size: 90%;}
+
+.note, .example {
+	padding: .5em;
+	border: .5em;
+	border-left-style: solid;
+	page-break-inside: avoid;}
+
+.note, .example {margin: 1em auto;}
+
+.example {
+	border-color: #E0CB52;
+	background: #FCFAEE;
+	counter-increment: example;
+	overflow: auto;
+	clear: both;}
+
+.example::before {
+	text-transform: uppercase;
+	color: #827017;
+	min-width: 7.5em;
+	display: block;}
+
+.note {
+	border-color: #52E052;
+	background: #E9FBE9;
+	overflow: auto;}
+
+.note::before, .note > .marker {
+	text-transform: uppercase;
+	display: block;
+	color: hsl(120, 70%, 30%);}
+
+details {display: block;}
+summary {font-weight: bolder;}
+
+th, td {
+	text-align: left;
+	text-align: start;}
+
+.toc a {
+	padding-top: 0.1rem;
+	display: block;
+	color: black;
+	border-color: #3980B5;}
+
+.toc a:visited {border-color: #054572;}
+.toc a:not(:focus):not(:hover) {border-bottom-color: transparent;}
+
+.toc, .toc ol, .toc li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	line-height: 1.1rem;}
+
+.toc > li {font-weight: bold;}
+.toc > li li {font-weight: normal;}
+.toc > li {margin: 1.5rem 0;}
+.toc > li li {margin: 0.3rem 0;}
+
+.toc .secno {
+	float: left;
+	width: 4rem;
+	white-space: nowrap;}
+:not(li) > .toc {margin-left: 5rem;}
+.toc .secno {margin-left: -5rem;}
+
+@media (max-width: 30em) {
+	:not(li) > .toc {margin-left: 4rem;}
+	.toc .secno {margin-left: -4rem;}}
+
+.toc li {clear: both;}
+
+@media print {
+	html {margin: 0;}
+	body {font-family: serif;}
+	#toc-nav {display: none;}}
+
+@media not print {
+	#toc-nav {
+		position: fixed;
+		z-index: 2;
+		bottom: 0;
+		left: 0;
+		margin: 0;
+		min-width: 1.33em;
+		border-top-right-radius: 2rem;
+		box-shadow: 0 0 2px;
+		font-size: 1.5em;
+		color: black;}
+	#toc-nav > a {
+		display: block;
+		white-space: nowrap;
+		height: 1.33em;
+		padding: .1em 0.3em;
+		margin: 0;
+		box-shadow: 0 0 2px;
+		border: none;
+		border-top-right-radius: 1.33em;
+		background: white;}
+	#toc-nav > #toc-jump {
+		padding-bottom: 2em;
+		margin-bottom: -1.9em;}
+	#toc-nav > a:hover, #toc-nav > a:focus {background: #f8f8f8;}
+	#toc-nav > a:not(:hover):not(:focus) {color: #707070;}
+	#toc-nav > a[href="#toc"]:not(:hover):focus:last-child {padding-bottom: 1.5rem;}
+	#toc-nav:not(:hover) > a:not(:focus) > span + span {display: none;}
+	#toc-nav > a > span + span {padding-right: 0.2em;}
+	#toc-toggle-inline {
+		vertical-align: 0.05em;
+		font-size: 80%;
+		color: gray;
+		color: hsla(203,20%,40%,.7);
+		border-style: none;
+		background: transparent;
+		position: relative;}
+	#toc-toggle-inline:hover:not(:active), #toc-toggle-inline:focus:not(:active) {
+		text-shadow: 1px 1px silver;
+		top: -1px;
+		left: -1px;}
+	#toc-nav :active {color: #C00;}}
+
+@media screen {
+	body.toc-sidebar #toc {
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		width: 23.5em;
+		max-width: 80%;
+		max-width: calc(100% - 2em - 26px);
+		overflow: auto;
+		padding: 0 1em;
+		padding-left: 42px;
+		padding-left: calc(1em + 26px);
+		background: inherit;
+		background-color: #f7f8f9;
+		z-index: 1;
+		box-shadow: -.1em 0 .25em rgba(0,0,0,.1) inset;}
+	body.toc-sidebar #toc h2 {
+		margin-top: .8rem;
+		font-variant: small-caps;
+		font-variant: all-small-caps;
+		text-transform: lowercase;
+		font-weight: bold;
+		color: gray;
+		color: hsla(203,20%,40%,.7);}
+	body.toc-sidebar #toc-jump:not(:focus) {
+		width: 0;
+		height: 0;
+		padding: 0;
+		position: absolute;
+		overflow: hidden;}}
+
+@media screen and (max-width: 28em) {body.toc-sidebar {overflow: hidden;}}
+
+@media screen and (min-width: 78em) {
+	body:not(.toc-inline) #toc {
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		width: 23.5em;
+		overflow: auto;
+		padding: 0 1em;
+		padding-left: 42px;
+		padding-left: calc(1em + 26px);
+		background: inherit;
+		background-color: #f7f8f9;
+		z-index: 1;
+		box-shadow: -.1em 0 .25em rgba(0,0,0,.1) inset;}
+	body:not(.toc-inline) #toc h2 {
+		margin-top: .8rem;
+		font-variant: small-caps;
+		font-variant: all-small-caps;
+		text-transform: lowercase;
+		font-weight: bold;
+		color: gray;
+		color: hsla(203,20%,40%,.7);}
+	body:not(.toc-inline) {padding-left: 29em;}
+	body:not(.toc-inline) #toc-jump:not(:focus) {
+		width: 0;
+		height: 0;
+		padding: 0;
+		position: absolute;
+		overflow: hidden;}}
+
+@media screen and (min-width: 90em) {body:not(.toc-inline) {margin: 0 4em;}}
+
+@page {margin: 1.5cm 1.1cm;}
+</style>
+
+
+</head>
+<body aria-busy="false" class="h-entry toc-inline">
+
+
+<div class="head">
+	<h1 class="title p-name" id="title">Название Книги</h1>
+	<h2>дополнение к названию</h2>
+
+
+<table>
+	<tr>
+		<td>Автор:</td>
+		<td>Steve Faulkner</td>
+	</tr>
+	<tr>
+		<td>Издательство:</td>
+		<td><a class="u-url url p-name fn" href="#">Компания</a></td>
+	</tr>
+</table>
+	
+<hr title="Разделитель шапки">
+</div>
+
+
+
+<nav id="toc"><h2 class="introductory" id="table-of-contents">Содержание</h2>
+	<ol class="toc">
+		<li class="tocline"><a href="#rules-wd"><span class="secno">1. </span>Основная Закладка</a>
+			<ol class="toc">
+				<li class="tocline"><a href="#"><span class="secno">5.1 </span>Закладка</a></li>
+				<li class="tocline"><a href="#"><span class="secno">5.2 </span>Закладка</a></li>
+				<li class="tocline"><a href="#"><span class="secno">5.3 </span>Закладка</a></li>
+			</ol>
+		</li>
+		<li class="tocline"><a href="#docconformance"><span class="secno">2. </span>Основная Закладка</a>
+			<ol class="toc">
+				<li class="tocline"><a href="#"><span class="secno">5.1 </span>Закладка</a></li>
+				<li class="tocline"><a href="#"><span class="secno">5.2 </span>Закладка</a></li>
+				<li class="tocline"><a href="#"><span class="secno">5.3 </span>Закладка</a></li>
+			</ol>
+		</li>
+		<li class="tocline"><a href="#case-sensitivity"><span class="secno">3. </span>Основная Закладка</a>
+			<ol class="toc">
+				<li class="tocline"><a href="#"><span class="secno">5.1 </span>Закладка</a></li>
+				<li class="tocline"><a href="#"><span class="secno">5.2 </span>Закладка</a></li>
+				<li class="tocline"><a href="#"><span class="secno">5.3 </span>Закладка</a></li>
+			</ol>
+		</li>
+	</ol>
+</nav><br><br>
+
+
+
+<section><!--Закладка--><h2 id="rules-wd"><span class="secno">1. </span>Web developer requirements for use of <abbr title="Accessible Rich Internet Applications">ARIA</abbr> in HTML</h2>
+
+<p>Web developers <em title="MUST NOT">MUST NOT</em> use the <code>role</code> and <code>aria-*</code> attributes in a manner that conflicts with the semantics described in the <a href="#docconformance">Document conformance requirements for use of ARIA attributes in HTML</a> table. Web developers <em title="SHOULD NOT">SHOULD NOT</em> set the <abbr title="Accessible Rich Internet Applications">ARIA</abbr> <code>role</code> and <code>aria-*</code> attributes to values that match the <a href="#" class="internalDFN">implicit ARIA semantics</a> defined in the table.</p>
+
+	<div class="example">The following uses a <code>role=heading</code> on a <code>button</code> element. This is not allowed, because the <code>button</code> element has default characteristics that conflict with the heading role. <pre aria-busy="false" class="hljs xml"> <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"heading"</span>&gt;</span>search<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></pre>
+
+		<details id="details-id-0" role="group"><summary role="button" aria-expanded="false" aria-controls="details-id-0">Example document for conformance checkin </summary>
+		<p>If you <a href="#" target="_blank">check this file</a> using a HTML5 conformance checker an error will be displayed.</p>
+		<p><a href="#">non conforming ARIA use example</a>:</p>
+		<iframe style="width:100%;height:300px" src="#"></iframe>
+		</details>
+	</div>
+</section>
+
+
+<section><!--Закладка--><h2 id="docconformance"><span class="secno">2. </span>Document conformance requirements for use of <abbr title="Accessible Rich Internet Applications">ARIA</abbr> attributes in HTML</h2>
+
+<p>The following table provides normative per-element document-conformance requirements for the use of <abbr title="Accessible Rich Internet Applications">ARIA</abbr> markup in HTML documents and describes the <a href="#" class="internalDFN">implicit ARIA semantics</a> that apply to <a href="#">HTML elements</a> as defined in the HTML Accessibility <abbr title="Application Programing Interfaces">API</abbr> Mappings 1.0 html-aam-1.0 specification. Each language feature (element or attribute) in a cell in the first column implies the <abbr title="Accessible Rich Internet Applications">ARIA</abbr> semantics (any role, states, and properties) given in the cell in the second column of the same row. The third cell in each row defines which <abbr title="Accessible Rich Internet Applications">ARIA</abbr> role values and aria-* attributes which <em title="MAY">MAY</em> be used. Where a cell in the third column includes the term <strong>Any</strong> <code>role</code> it indicates that any <code>role</code> value apart from the <a href="#" class="internalDFN">implicit <abbr title="Accessible Rich Internet Applications">ARIA</abbr> semantics</a> <code>role</code> value, <em title="MAY">MAY</em> be used.</p>
+
+<div class="note"><div role="heading" class="note-title marker" id="h-note-1" aria-level="3"><span>Note</span></div><p>The <span class="new-feature">(new)</span> markers in the <code>following</code> table and <span class="changed-feature">(changed)</span> indicate new in <abbr title="Accessible Rich Internet Applications">ARIA</abbr>	or changed between roles, states and properties</p></div>
+
+
+<table>
+	<caption>Rules of <abbr title="Accessible Rich Internet Applications">ARIA</abbr> attributes usage by HTML language feature</caption>
+	<tbody>
+	<tr>
+		<th>HTML language feature </th>
+		<th><p id="implicit">Implicit <abbr title="Accessible Rich Internet Applications">ARIA</abbr> semantics -</p></th>
+		<th>Roles, states and properties which <em title="MAY">MAY</em> be used</th>
+	</tr>
+	<tr id="img" tabindex="-1">
+		<td><code><a href="#">img</a> with data-editor-id <a href="#">alt</a>="some text"</code></td>
+		<td><code>role=<a href="#">img</a></code></td>
+		<td>		
+			<p><a href="#">global <code>aria-*</code> applicable to</a> and any <code>aria-*</code> attributes <span class="new-feature">(new)</span> to the allowed <span class="changed-feature">(changed)</span> roles and implied role (if any) </p>
+		</td>
+	</tr>
+	<tr id="script" tabindex="-1">
+		<td><code><a href="#">script</a> </code></td>
+		<td><a href="#" class="internalDFN">Nobody corresponding</a></td>
+		<td><strong class="nosupport">No <code>role</code> or <code>aria*</code> attributes</strong></td>
+	</tr>
+	</tbody>
+</table>
+
+<p>The elements marked with no corresponding role, in the second column of the table do not have any <a href="#" class="internalDFN" implicit <abbr title="Accessible Rich Internet Applications">ARIA</abbr> semantics</a>, but they do have meaning and this meaning may be represented in roles, states and properties not provided by <abbr title="Accessible Rich Internet Applications">ARIA</abbr>, and exposed to users of assistive technology via accessibility APIs. It is therefore recommended that web developers add a <code>role</code> attribute to a semantically neutral element such as a <code>div</code> or <code>span</code>, rather than overriding the semantics of the listed elements.</p>
+</section>
+
+
+<section><!--Закладка--><h2 id="case-sensitivity"><span class="secno">3. </span>Case requirements for <abbr title="Accessible Rich Internet Applications">ARIA</abbr> role, state and property attributes</h2>
+	<p>
+		Authors <em title="MUST">MUST</em> use <a href="#">lowercase ASCII letters</a> for all <code>role</code> token values and any state or property attributes (<code>aria-*</code>) whose values are <a href="#propcharacteristic_value">defined as tokens</a>.
+	</p>
+</section>
+
+
+<br><p role="navigation" id="back-to-top"><a href="#toc"><abbr title="Back to Top">↑</abbr></a></p>
+<section><br><p class="copyright"><a href="#">Copyright</a> © 2018 <a href="#">W3C</a> <sup>®</sup> liability, trademark and <a href="#">permissive document license</a> rules apply.</p></section>
+
+
+
+<script>/*		Оглавление		*/
+(function() {
+	"use strict";
+	var ESCAPEKEY = 27;
+	var collapseSidebarText = '<span aria-hidden="true">←</span> '
+							+ '<span>Закрыть Оглавление</span>';
+	var expandSidebarText	 = '<span aria-hidden="true">→</span> '
+							+ '<span>Открыть Оглавление</span>';
+
+	var sidebarMedia = window.matchMedia('screen and (min-width: 78em)');
+	var autoToggle	 = function(e){ toggleSidebar(e.matches) };
+	if(sidebarMedia.addListener) {
+	sidebarMedia.addListener(autoToggle);
+	}
+
+	function toggleSidebar(on, skipScroll) {
+	if (on == undefined) {
+		on = !document.body.classList.contains('toc-sidebar');
+	}
+
+	if (!skipScroll) {
+		/* Don't scroll to compensate for the ToC if we're above it already. */
+		var headY = 0;
+		var head = document.querySelector('.head');
+		if (head) {
+		// terrible approx of "top of ToC"
+		headY += head.offsetTop + head.offsetHeight;
+		}
+		skipScroll = window.scrollY < headY;
+	}
+
+	var toggle = document.getElementById('toc-toggle');
+	var tocNav = document.getElementById('toc');
+	if (on) {
+		var tocHeight = tocNav.offsetHeight;
+		document.body.classList.add('toc-sidebar');
+		document.body.classList.remove('toc-inline');
+		toggle.innerHTML = collapseSidebarText;
+		if (!skipScroll) {
+		window.scrollBy(0, 0 - tocHeight);
+		}
+		tocNav.focus();
+		sidebarMedia.addListener(autoToggle); // auto-collapse when out of room
+	}
+	else {
+		document.body.classList.add('toc-inline');
+		document.body.classList.remove('toc-sidebar');
+		toggle.innerHTML = expandSidebarText;
+		if (!skipScroll) {
+		window.scrollBy(0, tocNav.offsetHeight);
+		}
+		if (toggle.matches(':hover')) {
+		/* Unfocus button when not using keyboard navigation,
+			 because I don't know where else to send the focus. */
+		toggle.blur();
+		}
+	}
+	}
+
+	function createSidebarToggle() {
+	/* Create the sidebar toggle in JS; it shouldn't exist when JS is off. */
+	var toggle = document.createElement('a');
+		/* This should probably be a button, but appearance isn't standards-track.*/
+	toggle.id = 'toc-toggle';
+	toggle.class = 'toc-toggle';
+	toggle.href = '#toc';
+	toggle.innerHTML = collapseSidebarText;
+
+	sidebarMedia.addListener(autoToggle);
+	var toggler = function(e) {
+		e.preventDefault();
+		sidebarMedia.removeListener(autoToggle); // persist explicit off states
+		toggleSidebar();
+		return false;
+	}
+	toggle.addEventListener('click', toggler, false);
+
+
+	/* Get <nav id=toc-nav>, or make it if we don't have one. */
+	var tocNav = document.getElementById('toc-nav');
+	if (!tocNav) {
+		tocNav = document.createElement('p');
+		tocNav.id = 'toc-nav';
+		/* Prepend for better keyboard navigation */
+		document.body.insertBefore(tocNav, document.body.firstChild);
+	}
+
+	tocNav.appendChild(toggle);
+	}
+
+	var toc = document.getElementById('toc');
+	if (toc) {
+	if (!document.getElementById('toc-toggle')) {
+		createSidebarToggle();
+	}
+	toggleSidebar(sidebarMedia.matches, true);
+
+	/* If the sidebar has been manually opened and is currently overlaying the text
+		 (window too small for the MQ to add the margin to body),
+		 then auto-close the sidebar once you click on something in there. */
+	toc.addEventListener('click', function(e) {
+		if(e.target.tagName.toLowerCase() == "a" && document.body.classList.contains('toc-sidebar') && !sidebarMedia.matches) {
+		toggleSidebar(false);
+		}
+	}, false);
+	}
+	else {
+	console.warn("Can't find Table of Contents. Please use <nav id='toc'> around the ToC.");
+	}
+
+	/* Wrap tables in case they overflow */
+	var tables = document.querySelectorAll(':not(.overlarge) > table.data, :not(.overlarge) > table.index');
+	var numTables = tables.length;
+	for (var i = 0; i < numTables; i++) {
+	var table = tables[i];
+	if (!table.matches('.example *, .note *, .advisement *, .def *, .issue *')) {
+		/* Overflowing colored boxes looks terrible, and also
+		 the kinds of tables inside these boxes
+		 are less likely to need extra space. */
+		var wrapper = document.createElement('div');
+		wrapper.className = 'overlarge';
+		table.parentNode.insertBefore(wrapper, table);
+		wrapper.appendChild(table);
+	}
+	}
+
+	/* Deprecation warning */
+	if (document.location.hostname === "www.w3.org") {
+	var request = new XMLHttpRequest();
+
+	request.open('GET', '//www.w3.org/TR/tr-outdated-spec');
+	request.onload = function() {
+		if (request.status < 200 || request.status >= 400) {
+		return;
+		}
+		try {
+		var currentSpec = JSON.parse(request.responseText);
+		} catch (err) {
+		console.error(err);
+		return;
+		}
+		document.body.classList.add("outdated-spec");
+		var node = document.createElement("p");
+		node.classList.add("outdated-warning");
+		node.tabIndex = -1;
+		node.setAttribute("role", "dialog");
+		node.setAttribute("aria-modal", "true");
+		node.setAttribute("aria-labelledby", "outdatedWarning");
+		if (currentSpec.style) {
+			node.classList.add(currentSpec.style);
+		}
+
+		var frag = document.createDocumentFragment();
+		var heading = document.createElement("strong");
+		heading.id = "outdatedWarning";
+		heading.innerHTML = currentSpec.header;
+		frag.appendChild(heading);
+
+		var anchor = document.createElement("a");
+		anchor.id = "outdated-note";
+		anchor.href = currentSpec.latestUrl;
+		anchor.innerText = currentSpec.latestUrl + ".";
+
+		var warning = document.createElement("span");
+		warning.innerText = currentSpec.warning;
+		warning.appendChild(anchor);
+		frag.appendChild(warning);
+
+		var button = document.createElement("button");
+		var handler = makeClickHandler(node);
+		button.addEventListener("click", handler);
+		button.innerHTML = "&#9662; collapse";
+		frag.appendChild(button);
+		node.appendChild(frag);
+
+		function makeClickHandler(node) {
+		var isOpen = true;
+		return function collapseWarning(event) {
+			var button = event.target;
+			isOpen = !isOpen;
+			node.classList.toggle("outdated-collapsed");
+			document.body.classList.toggle("outdated-spec");
+			button.innerText = (isOpen) ? '\u25BE collapse' : '\u25B4 expand';
+		}
+		}
+
+		document.body.appendChild(node);
+		button.focus();
+		window.onkeydown = function (event) {
+		var isCollapsed = node.classList.contains("outdated-collapsed");
+		if (event.keyCode === ESCAPEKEY && !isCollapsed) {
+			button.click();
+		}
+		}
+
+		document.addEventListener("focus", function(event) {
+		var isCollapsed = node.classList.contains("outdated-collapsed");
+		var containsTarget = node.contains(event.target);
+		if (!isCollapsed && !containsTarget) {
+			event.stopPropagation();
+			node.focus();
+		}
+		}, true); // use capture to enable event delegation as focus doesn't bubble up
+	};
+
+	request.onerror = function() {
+		console.error("Request to https://www.w3.org/TR/tr-outdated-spec failed.");
+	};
+
+	request.send();
+	}
+})();
+</script>
+
+
+</body>
+</html>
